@@ -55,6 +55,10 @@ def rows_generator(num_rows: int):
 
 
 def generate_files(directory: str, num_files: int, num_rows: int):
+    if not os.path.isdir(directory):
+        os.mkdir(directory)
+        print(f"Directory {directory} created.")
+
     for i in range(num_files):
         file_path = os.path.join(directory, f"file_{i}.txt")
         with open(file_path, "w", encoding="utf-8") as f:
