@@ -11,21 +11,14 @@ END_DATE = dt.date.today()
 START_DATE = END_DATE - dt.timedelta(days=365 * 5 + 1)  # date 5 years ago
 
 
-def random_date(start_date: dt.date, end_date: dt.date) -> dt.date:
+def random_str_date(start_date: dt.date, end_date: dt.date) -> dt.date:
     time_between_dates = end_date - start_date
     days_between_dates = time_between_dates.days
     random_number_of_days = np.random.randint(days_between_dates)
     rand_date = start_date + dt.timedelta(days=random_number_of_days)
+    rand_date = rand_date.strftime("%d.%m.%Y")
 
     return rand_date
-
-
-def transform_date(date: dt.date) -> str:
-    new_date = str(date).split("-")
-    new_date = list(reversed(new_date))
-    new_date = ".".join(new_date)
-
-    return new_date
 
 
 def random_str(symbols_list: list, size: int) -> str:
@@ -37,8 +30,7 @@ def random_str(symbols_list: list, size: int) -> str:
 
 def rows_generator(num_rows: int):
     for i in range(num_rows):
-        rand_date = random_date(START_DATE, END_DATE)
-        rand_date_str = transform_date(rand_date)
+        rand_date_str = random_str_date(START_DATE, END_DATE)
 
         rand_en_str = random_str(EN_CHARS, 10)
 
@@ -69,5 +61,5 @@ def generate_files(directory: str, num_files: int, num_rows: int):
         print(f"{file_path} successfully created. {num_files - i - 1} files remaining.")
 
 
-generate_files("generated_files/", 100, 100000)
+generate_files("generated_files/", 1, 100000)
 print("Generation completed successfully!")
