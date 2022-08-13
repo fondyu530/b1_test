@@ -129,3 +129,5 @@ dmypy.json
 .pyre/
 
 task_1/generated_files
+task_1/generated_file_unions
+.idea/

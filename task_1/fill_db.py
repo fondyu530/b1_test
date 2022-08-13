@@ -32,34 +32,34 @@ def insert_rows_into_table(table_name: str, rows: list, connection, cursor):
 
 
 def fill_table_from_files(files_dir, table_name, connection, cursor):
-    if not os.path.isdir(files_dir) or len(os.listdir(files_dir)) == 0:
-        raise FileNotFoundError(f"There is no directory with name {files_dir}.")
-    else:
-        file_names_list = os.listdir(files_dir)
-        num_of_files = len(file_names_list)
-        for i, file_name in enumerate(file_names_list):
-            file_path = os.path.join(files_dir, file_name)
-            with open(file_path, "r", encoding="utf-8") as fr:
-                print(f"Importing file {file_path}.")
-                print(f"Files scanned: {i + 1}\t\tFiles remaining: {num_of_files - i - 1}")
-                file_len = sum(1 for _ in fr)
-            with open(file_path, "r", encoding="utf-8") as fr:
-                rows = []
-                counter = 1
-                for row in fr:
-                    row = row.split("||")
-                    row_str = f"('{row[0]}', '{row[1]}', '{row[2]}', {row[3]}, {row[4].replace(',', '.')})"
-                    rows.append(row_str)
+    file_names_list = os.listdir(files_dir)
+    num_of_files = len(file_names_list)
+    for i, file_name in enumerate(file_names_list):
+        file_path = os.path.join(files_dir, file_name)
+        with open(file_path, "r", encoding="utf-8") as fr:
+            print(f"Importing file {file_path}.")
+            print(f"Files scanned: {i + 1}\t\tFiles remaining: {num_of_files - i - 1}")
+            file_len = sum(1 for _ in fr)
+        with open(file_path, "r", encoding="utf-8") as fr:
+            rows = []
+            counter = 1
+            for row in fr:
+                row = row.split("||")
+                row_str = f"('{row[0]}', '{row[1]}', '{row[2]}', {row[3]}, {row[4].replace(',', '.')})"
+                rows.append(row_str)
 
-                    if counter % 100000 == 0 and counter >= 100000:
-                        insert_rows_into_table(table_name, rows, connection, cursor)
-                        print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}\n\n")
-                        rows = []
-                    counter += 1
-                del rows
+                if counter % 100000 == 0 and counter >= 100000:
+                    insert_rows_into_table(table_name, rows, connection, cursor)
+                    print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}\n\n")
+                    rows = []
+                counter += 1
+            del rows
 
 
 def fill_db(files_dir, table_name):
+    if not os.path.isdir(files_dir) or len(os.listdir(files_dir)) == 0:
+        raise FileNotFoundError(f"There is no directory with name {files_dir}.")
+
     with psycopg2.connect(CONNECTION_CONFIG) as conn:
         with conn.cursor() as crs:
             operation_canceled = False
