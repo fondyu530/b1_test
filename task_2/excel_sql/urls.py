@@ -1,6 +1,6 @@
 from django.urls import path
-from excel_sql.views import *
+from .views import *
 
 urlpatterns = [
-    path("", index)
+    path("", upload_file, name="main")
 ]

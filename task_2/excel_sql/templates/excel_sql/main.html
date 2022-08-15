@@ -5,6 +5,11 @@
     <title>Main page</title>
 </head>
 <body>
-    <p>Hello from template</p>
+    <p>Upload your file here. After you press upload button, file will be processed and added to database.</p>
+    <form action="{% url 'main' %}" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Upload</button>
+    </form>
 </body>
 </html>
