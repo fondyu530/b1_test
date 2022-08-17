@@ -47,7 +47,7 @@ def fill_table_from_files(files_dir: str, table_name: str, connection, cursor):
                 row = row.split("||")
                 row_str = f"('{row[0]}', '{row[1]}', '{row[2]}', {row[3]}, {row[4].replace(',', '.')})"
                 rows.append(row_str)
-                # inserting into db 100000 rows by 1 commit
+                # inserting into db 100000 rows by 1 commit (helps to insert rows faster than 1 row by 1 commit)
                 if counter % 100000 == 0 and counter >= 100000:
                     insert_rows_into_table(table_name, rows, connection, cursor)
                     print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}")
