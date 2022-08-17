@@ -61,5 +61,5 @@ def generate_files(directory: str, num_files: int, num_rows: int):
         print(f"{file_path} successfully created. {num_files - i - 1} files remaining.")
 
 
-generate_files("generated_files/", 1, 100000)
+generate_files("generated_files/", 100, 100000)
 print("Generation completed successfully!")

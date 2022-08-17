@@ -50,7 +50,7 @@ def fill_table_from_files(files_dir, table_name, connection, cursor):
 
                 if counter % 100000 == 0 and counter >= 100000:
                     insert_rows_into_table(table_name, rows, connection, cursor)
-                    print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}\n\n")
+                    print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}")
                     rows = []
                 counter += 1
             del rows
