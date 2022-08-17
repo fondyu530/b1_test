@@ -6,7 +6,7 @@ from sys import argv
 CONNECTION_CONFIG = "dbname=b1_task_1 user=b1 password=12345678 host=127.0.0.1 port=5432"
 
 
-def create_table(table_name, connection, cursor):
+def create_table(table_name: str, connection, cursor):
     query = f"""CREATE TABLE {table_name} (
                 date CHAR(10),
                 en_string CHAR(10),
@@ -19,7 +19,7 @@ def create_table(table_name, connection, cursor):
     connection.commit()
 
 
-def drop_table(table_name, connection, cursor):
+def drop_table(table_name: str, connection, cursor):
     query = f"DROP TABLE {table_name};"
     cursor.execute(query)
     connection.commit()
@@ -31,7 +31,7 @@ def insert_rows_into_table(table_name: str, rows: list, connection, cursor):
     connection.commit()
 
 
-def fill_table_from_files(files_dir, table_name, connection, cursor):
+def fill_table_from_files(files_dir: str, table_name: str, connection, cursor):
     file_names_list = os.listdir(files_dir)
     num_of_files = len(file_names_list)
     for i, file_name in enumerate(file_names_list):
@@ -47,12 +47,14 @@ def fill_table_from_files(files_dir, table_name, connection, cursor):
                 row = row.split("||")
                 row_str = f"('{row[0]}', '{row[1]}', '{row[2]}', {row[3]}, {row[4].replace(',', '.')})"
                 rows.append(row_str)
-
+                # inserting into db 100000 rows by 1 commit
                 if counter % 100000 == 0 and counter >= 100000:
                     insert_rows_into_table(table_name, rows, connection, cursor)
                     print(f"Rows imported: {counter}\t\tRows remaining: {file_len - counter}")
                     rows = []
                 counter += 1
+            if counter < 100000:
+                insert_rows_into_table(table_name, rows, connection, cursor)
             del rows
 
 

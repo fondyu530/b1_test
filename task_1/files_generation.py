@@ -55,8 +55,14 @@ def generate_files(directory: str, num_files: int, num_rows: int):
         file_path = os.path.join(directory, f"file_{i}.txt")
         with open(file_path, "w", encoding="utf-8") as f:
             r_generator = rows_generator(num_rows)
+            rows = ""
+            counter = 0
             for new_row in r_generator:
-                f.write(new_row)
+                rows += new_row
+                if counter % 1000 == 0:
+                    f.write(rows)
+                    rows = ""
+            f.write(rows)
 
         print(f"{file_path} successfully created. {num_files - i - 1} files remaining.")
 

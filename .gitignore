@@ -131,3 +131,4 @@ dmypy.json
 task_1/generated_files
 task_1/generated_file_unions
 .idea/
+task_2/excel_sql/media/excel_sql
