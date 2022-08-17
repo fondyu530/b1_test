@@ -2,8 +2,7 @@ from django.db import models
 
 
 class UploadedFile(models.Model):
-    id = models.IntegerField(primary_key=True)
-    name = models.CharField(max_length=200)
+    name = models.CharField(primary_key=True, max_length=200)
     header = models.CharField(max_length=500)
 
 
@@ -20,7 +19,7 @@ class Subclass(models.Model):
 
 
 class BalanceAccount(models.Model):
-    id = models.IntegerField(primary_key=True)
+    id = models.AutoField(primary_key=True)
     # contains only values from 1000 to 9999
     # (not a primary key as we can have the same account numbers in different files)
     account_num = models.SmallIntegerField()
