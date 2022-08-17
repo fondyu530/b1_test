@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ file.name }}</title>
+</head>
+<body>
+    <h3>{{ file.name }}</h3>
+    <a href="{% url 'main' %}"><button>Back</button></a>
+    <p>{{ file.header }}</p>
+        <table width="100%" cellspacing="0" border="1">
+            <tbody>
+                <tr>
+                    <th colspan="3">Входящее сальдо</th>
+                    <th colspan="2">Обороты</th>
+                    <th colspan="2">Исходящее сальдо</th>
+                </tr>
+                <tr>
+                    <td><b>Б/сч</b></td>
+                    <td><b>Актив</b></td>
+                    <td><b>Пассив</b></td>
+                    <td><b>Дебет</b></td>
+                    <td><b>Кредит</b></td>
+                    <td><b>Актив</b></td>
+                    <td><b>Пассив</b></td>
+                </tr>
+                {% for row in rows %}
+                    {% if "КЛАСС" in row %}
+                        <tr>
+                            <td></td>
+                            <td></td>
+                            <td><b>{{ row }}</b></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                        </tr>
+                    {% else %}
+                        <tr>
+                            {% for item in row %}
+                                <td>{{ item }}</td>
+                            {% endfor %}
+                        </tr>
+                    {% endif %}
+                {% endfor %}
+            </tbody>
+        </table>
+    </table>
+</body>
+</html>

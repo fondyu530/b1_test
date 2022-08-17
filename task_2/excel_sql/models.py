@@ -27,13 +27,18 @@ class BalanceAccount(models.Model):
     file = models.ForeignKey(UploadedFile, on_delete=models.CASCADE)
 
 
-class OpeningBalance(models.Model):
-    account = models.ForeignKey(BalanceAccount, primary_key=True, on_delete=models.CASCADE)
+class BalanceType(models.Model):
+    name = models.CharField(primary_key=True, max_length=100)
+
+
+class Balance(models.Model):
+    account = models.ForeignKey(BalanceAccount, on_delete=models.CASCADE)
     assets = models.DecimalField(max_digits=19, decimal_places=2)
     liability = models.DecimalField(max_digits=19, decimal_places=2)
+    type = models.ForeignKey(BalanceType, on_delete=models.CASCADE)
 
 
 class Turnover(models.Model):
-    account = models.ForeignKey(BalanceAccount, primary_key=True, on_delete=models.CASCADE)
+    account = models.ForeignKey(BalanceAccount, on_delete=models.CASCADE)
     debit = models.DecimalField(max_digits=19, decimal_places=2)
     credit = models.DecimalField(max_digits=19, decimal_places=2)

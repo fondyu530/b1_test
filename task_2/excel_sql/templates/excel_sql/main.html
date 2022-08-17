@@ -5,11 +5,19 @@
     <title>Main page</title>
 </head>
 <body>
+    <h2>Upload files form</h2>
     <p>Upload your file here. After you press upload button, file will be processed and added to database.</p>
     <form action="{% url 'main' %}" method="post" enctype="multipart/form-data">
         {% csrf_token %}
         {{ form.as_p }}
         <button type="submit">Upload</button>
     </form>
+
+
+    <br><br>
+    <h2>Uploaded files list</h2>
+    {% for file_name in files %}
+        <p><a href="display/{{ file_name }}">{{ file_name }}</a></p>
+    {% endfor %}
 </body>
 </html>
